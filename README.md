@@ -46,7 +46,13 @@ Invoke the validation path:
 ./scripts/invoke.sh events/missing-name.json
 ```
 
-The `intentional-failure.json` event deliberately raises an exception for the troubleshooting exercise.
+The script prints both the invocation metadata and the function response. The
+`intentional-failure.json` event deliberately raises an exception for the
+troubleshooting exercise; its invocation metadata includes `FunctionError`.
+
+```bash
+./scripts/invoke.sh events/intentional-failure.json
+```
 
 ## Clean up
 
@@ -78,4 +84,3 @@ tests/           Local unit tests
 ## License
 
 The companion code is provided under the MIT License. See `LICENSE-CODE.txt`.
-

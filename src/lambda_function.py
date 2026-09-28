@@ -20,14 +20,14 @@ def _response(status_code: int, payload: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def lambda_handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
+def lambda_handler(event: Any, context: Any) -> dict[str, Any]:
     """Validate one greeting event and return an API-style response.
 
     The special action ``fail`` is intentional. It gives the troubleshooting
     chapter a safe way to produce one controlled function error.
     """
 
-    event = event or {}
+    event = event if isinstance(event, dict) else {}
     request_id = getattr(context, "aws_request_id", "local-request")
     action = event.get("action", "greet")
     environment = os.getenv("APP_ENV", "lab")

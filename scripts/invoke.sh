@@ -6,6 +6,7 @@ region="${AWS_REGION:-ap-southeast-2}"
 function_name="${FUNCTION_NAME:-lambda-60-lab}"
 event_file="${1:-$project_dir/events/hello.json}"
 response_file="${2:-$project_dir/build/response.json}"
+metadata_file="$project_dir/build/invoke-metadata.json"
 
 mkdir -p "$project_dir/build"
 aws lambda invoke \
@@ -13,7 +14,9 @@ aws lambda invoke \
   --function-name "$function_name" \
   --payload fileb://"$event_file" \
   --cli-binary-format raw-in-base64-out \
-  "$response_file" \
-  >/dev/null
+  "$response_file" >"$metadata_file"
 
+printf 'Invocation metadata:\n'
+python3 -m json.tool "$metadata_file"
+printf 'Function response:\n'
 python3 -m json.tool "$response_file"

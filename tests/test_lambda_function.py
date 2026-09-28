@@ -36,6 +36,12 @@ class LambdaHandlerTests(unittest.TestCase):
 
         self.assertEqual(result["statusCode"], 400)
 
+    def test_rejects_non_object_event(self) -> None:
+        result = lambda_handler(["not", "an", "object"], FakeContext())
+
+        self.assertEqual(result["statusCode"], 400)
+        self.assertEqual(json.loads(result["body"]), {"error": "name is required"})
+
     def test_intentional_failure_is_visible(self) -> None:
         with self.assertRaisesRegex(RuntimeError, "intentional lab failure"):
             lambda_handler({"action": "fail", "name": "Mason"}, FakeContext())
