@@ -7,9 +7,10 @@ The lab is intentionally small. It uses one Lambda function, one basic execution
 ## Prerequisites
 
 - Python 3.11 or newer for local tests
+- Bash
 - `zip`
 - AWS CLI v2 for the optional cloud path
-- AWS credentials with permission to manage the named Lambda function, its execution role, and its log group
+- AWS credentials with permission to manage and tag the named Lambda function, its execution role, and its log group
 - Region `ap-southeast-2`, or an explicit `AWS_REGION` override
 
 ## Run the local tests
@@ -28,7 +29,7 @@ The package is written to `build/function.zip`.
 
 ## Deploy the bounded lab
 
-Review the scripts before running them. The defaults create a function named `lambda-60-lab` and a role named `lambda-60-lab-role`.
+Review the scripts before running them. Run commands from the repository root. The defaults create a function named `lambda-60-lab`, a role named `lambda-60-lab-role`, and the function's log group. The script tags each resource and refuses to modify an existing name-matching resource without that ownership tag.
 
 ```bash
 ./scripts/deploy.sh
@@ -62,7 +63,7 @@ Run cleanup even if you stop the lab early:
 ./scripts/cleanup.sh
 ```
 
-Then verify in the AWS console that the function, log group, and lab role are gone. The project cost target is below US$1 and the hard ceiling is US$3, but actual charges depend on the account and region.
+The cleanup script verifies the expected resources are absent, but also confirm in the AWS console that the function, log group, and lab role are gone. US$3 is the project budget, not an automated spending cutoff; the design target is below US$1, and actual charges depend on the account and Region.
 
 ## Repository layout
 
